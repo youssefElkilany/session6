@@ -1,0 +1,38 @@
+1-Create DATABASE moviesdb
+
+2-CREATE TABLE thecamp_cinema (`ID` INT UNIQUE NOT NULL AUTO_INCREMENT , `movie_name` VARCHAR(50) NOT NULL , 
+`movie_length` INT NOT NULL , `movie_director` VARCHAR(255) NOT NULL ,PRIMARY KEY (Id)) 
+
+3-CREATE TABLE thecamp_movies_rating (
+    ID INT NOT NULL UNIQUE AUTO_INCREMENT,
+    movie_ID INT NOT NULL,
+    movie_review VARCHAR(255) NOT NULL,
+    date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (ID),
+FOREIGN KEY (movie_ID) REFERENCES thecamp_cinema(ID));
+
+4- CREATE TABLE thecamp_movies_actors (
+    ID INT NOT NULL UNIQUE AUTO_INCREMENT,
+    movie_ID INT NOT NULL,
+    actor_name VARCHAR(255) NOT NULL,
+    actor_salary INT NOT NULL,
+    PRIMARY KEY (ID),
+FOREIGN KEY (movie_ID) REFERENCES thecamp_cinema(ID));
+
+5-SELECT thecamp_cinema.ID ,movie_name ,movie_length ,movie_director,movie_review,thecamp_movies_rating.date
+FROM thecamp_cinema,thecamp_movies_rating
+WHERE thecamp_cinema.ID = thecamp_movies_rating.movie_ID
+
+6-SELECT thecamp_cinema.ID ,movie_name ,movie_length ,movie_director,actor_name,actor_salary
+FROM thecamp_cinema,thecamp_movies_actors
+WHERE thecamp_cinema.ID = thecamp_movies_actors.movie_ID
+
+7-SELECT thecamp_cinema.ID ,movie_name ,COUNT(thecamp_movies_rating.movie_ID)
+FROM thecamp_cinema,thecamp_movies_rating
+WHERE thecamp_cinema.ID = thecamp_movies_rating.movie_ID
+GROUP BY thecamp_movies_rating.movie_ID;
+
+8-SELECT thecamp_cinema.ID ,movie_name ,AVG(thecamp_movies_actors.actor_salary)
+FROM thecamp_cinema,thecamp_movies_actors
+WHERE thecamp_cinema.ID = thecamp_movies_actors.movie_ID
+GROUP BY thecamp_movies_actors.movie_ID;
